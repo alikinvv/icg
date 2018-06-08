@@ -38,6 +38,7 @@ $purple: #544594;
 html,body {
 	height: 100%;
 	overflow: hidden;
+	background: #fff;
 }
 
 body {
@@ -78,13 +79,21 @@ table {
 	background: $yellow;
 	z-index: 1;
 	transform: translateX(-100%);
-	&-second {
+	&-two {
 		position: absolute;
 		height: 100%;
 		width: 100%;
 		background: $purple;
 		z-index: 1;
 		transform: translateX(-100%);
+	}
+	&-three {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		background: $purple;
+		z-index: 1;
+		transform: translateX(100%);
 	}
 }
 
@@ -96,7 +105,7 @@ table {
 	width: 51px;
 	cursor: pointer;
 	opacity: 0;
-	z-index: 2;
+	z-index: 3;
 }
 
 .slide {	
@@ -104,18 +113,21 @@ table {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100%;	
+	width: 100%;
+	pointer-events: none;
+	display: flex;
 	&.active {
-		display: flex;
+		pointer-events: all;
+		.slide__col-left {
+			z-index: 0;
+		}
+		.slide__col-right {
+			z-index: 2;
+		}
 	}
-	&-1 {
-		display: flex;
+	&-0 {		
 		justify-content: center;
 		align-items: center;
-	}
-	&-2 {
-		display: flex;
-		display: none;
 	}
 	&__subtitle {
 		font-family: 'MuseoSansCyrl';
@@ -124,6 +136,10 @@ table {
 		margin-bottom: 45px;
 	}
 	&__list {
+		background-size: cover;
+		background-position: 50% -32px;
+		background-repeat: no-repeat;
+		height: 515px;
 		p {
 			font-family: 'Sanchez';
 			max-width: 57%;
@@ -140,12 +156,12 @@ table {
 		&-left {
 			//display: none;
 			position: relative;
-			z-index: 0;
+			z-index: -1;
 		}
 		&-right {
 			//display: none;
 			position: relative;
-			z-index: 2;
+			z-index: -1;
 			color: #fff;
 			padding: 146px 99px;
 		}
