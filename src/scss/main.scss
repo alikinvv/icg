@@ -166,6 +166,7 @@ table {
 				color: #000;
 				font-size: 21px;
 				z-index: -1;
+				opacity: 0;
 				a {
 					color: #000;
 					text-decoration: none;
@@ -177,6 +178,7 @@ table {
 				left: 13%;
 				bottom: 10px;
 				z-index: -1;
+				opacity: 0;
 				p {
 					color: #989898;
 					display: flex;
@@ -311,4 +313,20 @@ svg.icg {
 		z-index: 1;
 		pointer-events: none;
 	}
+}
+
+.icg {
+	background: url(../img/icg.png);
+	background-position: 59% 60%;
+	background-size: 290%;
+	background-repeat: no-repeat;
+	@include r(1279) {
+		background-position: 59% 96%;
+	}
+}
+
+.about {
+	background: url(../img/about-us.png) no-repeat;
+	background-position: 48% 48%;
+	background-size: 182%;
 }

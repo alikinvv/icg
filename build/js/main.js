@@ -8,10 +8,6 @@ var readyTrigger = false, // определяет оконачание аним�
 var purple = '#544594',
     green = '#019386';
 
-$(document).ready(function () {
-
-});
-
 // установка состояний элементов по умолчанию
 anime({
     targets: '.backdrop',
@@ -44,6 +40,12 @@ anime({
     translateX: '100%',
     duration: 0
 });
+
+anime({
+    targets: 'svg.icg mask path',
+    x: 100,
+    duration: 100
+})
 
 // переход с первого слайда на нулевой
 function gotoSlideZero() {
@@ -207,7 +209,7 @@ function nextSlide() {
     }
 }
 
-// переключение на предыдущий слайд
+// переход на предыдущий слайд
 function prevSlide() {
     if (state % 2 == 1) { // переход на четный слайд        
         state--;
@@ -283,10 +285,12 @@ function prevSlide() {
         setTimeout(function () {
             $('.slide-' + state).addClass('active');
         }, 1450);
+
+        
     }
 }
 
-
+// переход на последний слайд с картой
 function goToMap() {
     state++;
 
@@ -309,6 +313,10 @@ function goToMap() {
     setTimeout(function () {
         $('.slide-6 .slide__col-right').css('z-index', '1');
     }, 750);
+    setTimeout(function () {
+        $('.contacts').css('opacity', '1');
+        $('.dev').css('opacity', '1');
+    }, 1600);
 
     anime({
         targets: '#map',
@@ -326,6 +334,7 @@ function goToMap() {
     }, 1450);
 }
 
+// переход с последнего слайда с картой на предпоследний
 function goToPenult() {
     state--;
 
@@ -383,7 +392,6 @@ $(window).load(function () {
             translateX: 0,
             duration: 1000,
             easing: 'easeInOutCubic',
-            //offset: '-=400'
         })
         .add({
             targets: '.logo__text',
@@ -416,8 +424,6 @@ $(window).load(function () {
         })
 
     $('.down').click(function () {
-        console.log("readyTrigger: " + readyTrigger);
-        console.log('scrollTrigger: ' + scrollTrigger);
         if (readyTrigger) {
             scrollTrigger = false;
             readyTrigger = false;
@@ -429,7 +435,7 @@ $(window).load(function () {
 $(window).bind('mousewheel DOMMouseScroll', function (event) {
     console.log("readyTrigger: " + readyTrigger);
     console.log('scrollTrigger: ' + scrollTrigger);
-    if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+    if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) { // scroll up
         if (readyTrigger && scrollTrigger && state == 1) {
             scrollTrigger = false;
             readyTrigger = false;
@@ -437,13 +443,17 @@ $(window).bind('mousewheel DOMMouseScroll', function (event) {
         } else if (readyTrigger && scrollTrigger && state == 6) {
             scrollTrigger = false;
             readyTrigger = false;
+            setTimeout(function () {
+                $('.contacts').css('opacity', '0');
+                $('.dev').css('opacity', '0');
+            }, 450);
             goToPenult();
         } else if (readyTrigger && scrollTrigger && state > 0) {
             scrollTrigger = false;
             readyTrigger = false;
             prevSlide();
         }
-    } else {
+    } else {    // scroll down
         if (readyTrigger && scrollTrigger && state == 0) {
             scrollTrigger = false;
             readyTrigger = false;
@@ -619,12 +629,22 @@ function initMap() {
             }]
         }]
     });
+    function pinSymbol(color) {
+        return {
+            path: 'M45.268,0C20.272,0,0,20.181,0,45.07c0,5.63,1.086,10.996,2.963,15.967l0.066,0.165 c1.054,2.716,11.786,25.449,13.317,27.885l28.922,59.062l28.922-59.07c1.539-2.436,12.263-25.185,13.317-27.885l0.082-0.165h-0.025 c1.877-4.963,2.963-10.329,2.963-15.967C90.535,20.189,70.264,0,45.268,0z M45.268,67.572c-11.835,0-21.432-9.712-21.432-21.729 c0-11.984,9.597-21.679,21.432-21.679S66.7,33.86,66.7,45.844C66.7,57.86,57.103,67.572,45.268,67.572z',
+            fillColor: color,
+            fillOpacity: 1,
+            scale: 0.5,
+       };
+    }
+    
     var marker = new google.maps.Marker({
         map: map,
         position: {
             lat: 52.563049,
             lng: 13.354676
-        }
+        },
+        icon: pinSymbol("#000"),
     });
 } // load map
 
