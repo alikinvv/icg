@@ -3,9 +3,9 @@
 <head lang="ru">
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Template</title>
+    <title>ICG</title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=1280">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
     <link rel="stylesheet" href="css/main.css">
 
@@ -34,120 +34,24 @@
     }
 </style>
 
+<div id="map"></div>
 <section class="slide slide-2">
-    <div class="slide__col slide__col-left">
-        <h2 class="slide__title">Blowing cable</h2>
-        <p class="slide__subtitle">A-DQ2Y</p>
-        <div class="slide__list">
-            <p>
-                <strong>Application</strong>
-                <br> Optical fiber cable for duct and micro duct install by blowing
-            </p>
-            <p>
-                <strong>Construction</strong>
-            </p>
-        </div>
-
-    </div>
-    <div class="slide__col slide__col-right">
-        <table cellspacing="0">
-            <tr>
-                <td>Max fibres</td>
-                <td>12</td>
-                <td>24</td>
-                <td>36</td>
-                <td>48</td>
-                <td>72</td>
-                <td>96</td>
-                <td>144</td>
-            </tr>
-            <tr>
-                <td>Number of tubes</td>
-                <td>6</td>
-                <td>6</td>
-                <td>6</td>
-                <td>6</td>
-                <td>6</td>
-                <td>8</td>
-                <td>12</td>
-            </tr>
-            <tr>
-                <td>Number of dummy tubes</td>
-                <td>5</td>
-                <td>4</td>
-                <td>3</td>
-                <td>2</td>
-                <td>&mdash;</td>
-                <td>&mdash;</td>
-                <td>&mdash;</td>
-            </tr>
-            <tr>
-                <td>Number of optic fiber per tube</td>
-                <td colspan="7">12</td>
-            </tr>
-            <tr>
-                <td>Cable outer, mm</td>
-                <td colspan="5">5.6</td>
-                <td>6.3</td>
-                <td>8.2</td>
-            </tr>
-            <tr>
-                <td>Cable mass, kg/km</td>
-                <td colspan="5">20.6</td>
-                <td>29.1</td>
-                <td>44.7</td>
-            </tr>
-            <tr>
-                <td>Tensile strenght, N</td>
-                <td colspan="5">300</td>
-                <td>400</td>
-                <td>500</td>
-            </tr>
-            <tr>
-                <td>Minimum bending radius, mm</td>
-                <td colspan="7">15 diameters</td>
-            </tr>
-            <tr>
-                <td>Operating Temperature</td>
-                <td colspan="7">-45…+70</td>
-            </tr>
-            <tr>
-                <td>Installation temperature</td>
-                <td colspan="7">-30…+50</td>
-            </tr>
-        </table>
-        <div class="features">
-            <div class="features__col">
-                <p>
-                    <strong>Fiber Brand</strong>
-                    <br> CORNING
-                </p>
-                <p>
-                    <strong>Sheath </strong>
-                    <br> High density polyethylene (HDPE),
-                    <br> UV-resistant
-                </p>
-                <p>
-                    <strong>Water blocking</strong>
-                    <br> Dry core with swellable elements.
-                    <br> Gel-filled loose tube
-                </p>
-            </div>
-            <div class="features__col">
-                <p>
-                    <strong>Fiber identification</strong>
-                    <br> Colouring to ANSI/EIA 598, blue,
-                    <br> orange, green, brown, gray, white, red,
-                    <br> black, yellow, purple, pink, turquoise.
-                    <br> Fibres 13-24 coloured as above with
-                    <br> ring marking
-                </p>
-                <p>
-                    <strong>Sheath marking</strong>
-                    <br> Marked every 1m with standard
-                    <br> ICG or to customer requirement
-                </p>
-            </div>
+    <div class="slide__col slide__col-right" style="padding: 0; z-index: 1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="about-us" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <mask id="mask" x="0" y="0">
+                    <rect x="0" y="0" width="79%" height="100%" />
+                    <path style="transform: translate(20%, 15%) scale(1.5);" d="M66.794 247.568h25.69v16.828c-5.469 3.869-12.381 5.803-20.732 5.803-10.217 0-18.614-3.557-25.194-10.674-6.58-7.113-9.87-16.143-9.87-27.084 0-10.26 3.184-18.922 9.555-25.988 6.369-7.066 14.211-10.6 23.526-10.6 6.121 0 11.641 1.029 16.563 3.086 4.919 2.059 9.78 5.176 14.581 9.352l20.982-26.15c-7.19-6.494-14.979-11.41-23.368-14.752s-18.033-5.014-28.938-5.014c-9.856 0-19.096 1.805-27.719 5.412-8.624 3.607-16 8.506-22.13 14.695-6.129 6.189-10.952 13.561-14.467 22.115C1.758 213.15 0 222.248 0 231.889c0 13.436 3.049 25.494 9.149 36.178 6.099 10.686 14.497 18.98 25.194 24.885 10.695 5.904 22.685 8.855 35.966 8.855 21.144 0 39.803-6.838 55.978-20.518v-60.561H66.794v26.84zm103.257-122.523c4.897-4.182 9.539-9.346 13.927-15.494L157.025 89.49c-4.326 5.488-8.698 9.602-13.115 12.346s-9.78 4.117-16.09 4.117c-8.955 0-16.331-3.469-22.13-10.406-5.8-6.939-8.698-15.549-8.698-25.832 0-10.217 2.898-18.813 8.698-25.783 5.799-6.969 13.175-10.453 22.13-10.453 10.997 0 20.491 5.234 28.484 15.705l26.23-21.162C169.375 9.34 151.286 0 128.271 0c-9.615 0-18.652 1.809-27.111 5.428-8.46 3.617-15.666 8.531-21.615 14.738-5.95 6.207-10.645 13.602-14.083 22.178-3.439 8.578-5.157 17.701-5.157 27.371 0 13.209 2.959 25.156 8.88 35.84 5.92 10.686 13.942 19.002 24.067 24.951 10.124 5.951 21.286 8.926 33.486 8.926 9.134 0 17.411-1.354 24.834-4.059 7.421-2.705 13.58-6.146 18.479-10.328zm101.182 68.098c-6.972 0-13.115 1.441-18.434 4.324-5.318 2.885-10.291 7.115-14.918 12.691-2.646-5.453-6.461-9.652-11.448-12.598-4.988-2.945-10.787-4.418-17.397-4.418-11.453 0-21.368 5.545-29.746 16.639V195.48h-35.064v103.615h35.064v-56.154c0-5.471 1.296-9.701 3.889-12.686 2.592-2.984 6.028-4.477 10.31-4.477 4.22 0 7.565 1.477 10.037 4.432s3.708 7.197 3.708 12.73v56.154h35.065V242.94c0-5.471 1.336-9.701 4.011-12.686 2.674-2.984 6.144-4.477 10.411-4.477 4.206 0 7.527 1.477 9.961 4.432s3.65 7.197 3.65 12.73v56.154h35.065v-67.986c0-12.031-3.021-21.369-9.06-28.008-6.038-6.638-14.407-9.956-25.104-9.956zM40.924 2.617H5.138v134.102h35.786V2.617zm491.088 162.377v50.498h-45.973v-50.498h-35.785v134.102h35.785v-50.967h45.973v50.967h35.785V164.994h-35.785zM261.858 85.191h25.69v16.828c-5.469 3.871-12.381 5.803-20.732 5.803-10.217 0-18.614-3.557-25.194-10.672s-9.87-16.143-9.87-27.084c0-10.262 3.184-18.924 9.555-25.988 6.369-7.066 14.211-10.6 23.526-10.6 6.121 0 11.641 1.027 16.563 3.086 4.919 2.057 9.78 5.176 14.581 9.352l20.982-26.152c-7.19-6.492-14.979-11.41-23.368-14.752S275.558 0 264.653 0c-9.856 0-19.096 1.803-27.719 5.412-8.624 3.607-16 8.504-22.13 14.695-6.129 6.189-10.952 13.561-14.467 22.113-3.516 8.555-5.273 17.652-5.273 27.293 0 13.434 3.049 25.492 9.149 36.178 6.099 10.684 14.497 18.979 25.194 24.883 10.695 5.906 22.685 8.857 35.966 8.857 21.144 0 39.803-6.838 55.978-20.518V58.354h-59.493v26.837zm157.884 122.352c-4.071-4.551-8.771-8.088-14.102-10.613-5.329-2.525-10.959-3.787-16.886-3.787-6.866 0-12.618 1.418-17.255 4.254-4.638 2.838-8.975 6.779-13.01 11.83v-49.938h-35.064v139.807h35.064v-12.625c3.794 4.615 8.085 8.262 12.873 10.941 4.789 2.68 10.646 4.021 17.573 4.021 5.868 0 11.465-1.264 16.795-3.787 5.329-2.525 10.014-6.08 14.056-10.662 4.043-4.582 7.245-10.316 9.611-17.207 2.365-6.887 3.548-14.416 3.548-22.584 0-8.166-1.183-15.678-3.548-22.537-2.365-6.857-5.583-12.56-9.655-17.113zm-27.013 56.764c-3.915 4.428-8.793 6.641-14.635 6.641-5.722 0-10.556-2.229-14.499-6.688-3.945-4.455-5.917-10.082-5.917-16.879 0-6.92 1.972-12.609 5.917-17.066 3.943-4.457 8.777-6.686 14.499-6.686 5.781 0 10.645 2.213 14.59 6.639 3.945 4.428 5.918 10.006 5.918 16.74.001 7.105-1.956 12.873-5.873 17.299z"/>
+                </mask>
+            </defs>
+            <rect x="0" y="0" width="100%" height="100%" />
+        </svg>
+        <div class="contacts">
+                Aroser Allee 84
+                13407 Berlin, Germany
+                <br><br>
+                tel.: +49 (0) 30 23407177
+                
         </div>
     </div>
 </section>
@@ -155,6 +59,8 @@
 <!-- END CONTENT  -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxfzFwLO8S3_4TKEyWPeMcEBduXvNApUQ">
+</script>
 <script src="js/main.js"></script>
 </body>
 </html>

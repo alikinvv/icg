@@ -39,6 +39,11 @@ anime({
     opacity: 0,
     duration: 0
 });
+anime({
+    targets: '#map',
+    translateX: '100%',
+    duration: 0
+});
 
 // переход с первого слайда на нулевой
 function gotoSlideZero() {
@@ -47,20 +52,20 @@ function gotoSlideZero() {
             targets: '.backdrop-two',
             translateX: '-100%',
             duration: 1500,
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
         })
         .add({
             targets: '.backdrop',
             translateY: '0',
             duration: 1200,
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
         })
         .add({
             targets: '.logo',
             translateY: 0,
             duration: 1500,
             offset: '-=1200',
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
             complete: function () {
                 state = 0;
                 scrollTrigger = true;
@@ -82,7 +87,7 @@ function gotoFirstSlide() {
         targets: '.backdrop',
         translateY: '-100%',
         duration: 1500,
-        easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+        easing: 'easeInOutCubic',
         complete: function () {
             nextSlide();
         }
@@ -91,7 +96,7 @@ function gotoFirstSlide() {
         targets: '.logo',
         translateY: windowHeight * -1,
         duration: 1200,
-        easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+        easing: 'easeInOutCubic',
     })
 }
 
@@ -107,7 +112,7 @@ function nextSlide() {
             targets: '.backdrop-two',
             translateX: '50%',
             duration: 1500,
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
             complete: function () {
                 scrollTrigger = true;
                 readyTrigger = true;
@@ -130,7 +135,7 @@ function nextSlide() {
             targets: '.backdrop-two',
             translateX: '-100%',
             duration: 1500,
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
         })
         setTimeout(function () {
             $('.slide').removeClass('active');
@@ -140,7 +145,7 @@ function nextSlide() {
             targets: '.backdrop-three',
             translateX: '-50%',
             duration: 1500,
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
             delay: 800,
             complete: function () {
                 scrollTrigger = true;
@@ -151,6 +156,7 @@ function nextSlide() {
             $('.slide-' + state).addClass('active');
         }, 1450);
     } else if (state % 2 != 1) { // преход на нечетный слайд
+        var position = '50%';
         state++;
 
         console.log('state : ' + state);
@@ -160,21 +166,35 @@ function nextSlide() {
             $('.backdrop-two').css('background', green);
         }
 
+        if (state == 5) {
+            $('.backdrop-two').css('background', purple);
+            position = '0%';
+        } else {
+            position = '50%';
+        }
+
         anime({
             targets: '.backdrop-three',
             translateX: '100%',
             duration: 1500,
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
         })
         setTimeout(function () {
             $('.slide').removeClass('active');
         }, 750);
+        setTimeout(function () {
+            if (state == 5) {
+                $('.slide-5 .slide__col-left').css('z-index', 1);
+            } else {
+                $('.slide-5 .slide__col-left').css('z-index', '-1');
+            }
+        }, 840);
 
         anime({
             targets: '.backdrop-two',
-            translateX: '50%',
+            translateX: position,
             duration: 1500,
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
             delay: 800,
             complete: function () {
                 scrollTrigger = true;
@@ -196,6 +216,12 @@ function prevSlide() {
             $('.backdrop-three').css('background', purple);
         }
 
+        if (state == 4) {
+            setTimeout(function () {
+                $('.slide-5 .slide__col-left').css('z-index', '-1');
+            }, 1430);
+        }
+
         console.log('state : ' + state);
         console.log('SHOW SLIDE #' + state);
 
@@ -203,7 +229,7 @@ function prevSlide() {
             targets: '.backdrop-two',
             translateX: '-100%',
             duration: 1500,
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
         })
         setTimeout(function () {
             $('.slide').removeClass('active');
@@ -213,7 +239,7 @@ function prevSlide() {
             targets: '.backdrop-three',
             translateX: '-50%',
             duration: 1500,
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
             delay: 800,
             complete: function () {
                 scrollTrigger = true;
@@ -225,7 +251,7 @@ function prevSlide() {
         }, 1450);
     } else if (state % 2 != 1) { // преход на нечетный слайд
         state--;
-        
+
         if (state == 1) {
             $('.backdrop-two').css('background', purple);
         }
@@ -237,7 +263,7 @@ function prevSlide() {
             targets: '.backdrop-three',
             translateX: '100%',
             duration: 1500,
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
         })
         setTimeout(function () {
             $('.slide').removeClass('active');
@@ -247,7 +273,7 @@ function prevSlide() {
             targets: '.backdrop-two',
             translateX: '50%',
             duration: 1500,
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
             delay: 800,
             complete: function () {
                 scrollTrigger = true;
@@ -260,6 +286,87 @@ function prevSlide() {
     }
 }
 
+
+function goToMap() {
+    state++;
+
+    console.log('state : ' + state);
+    console.log('SHOW SLIDE #' + state);
+
+    anime({
+        targets: '.backdrop-two',
+        translateX: '-100%',
+        duration: 1500,
+        easing: 'easeInOutCubic',
+    })
+    setTimeout(function () {
+        $('.slide').removeClass('active');
+    }, 750);
+    setTimeout(function () {
+        $('.slide-5 .slide__col-left').css('z-index', '-1');
+    }, 1430);
+
+    setTimeout(function () {
+        $('.slide-6 .slide__col-right').css('z-index', '1');
+    }, 750);
+
+    anime({
+        targets: '#map',
+        translateX: '0',
+        duration: 1500,
+        easing: 'easeInOutCubic',
+        delay: 800,
+        complete: function () {
+            scrollTrigger = true;
+            readyTrigger = true;
+        }
+    })
+    setTimeout(function () {
+        $('.slide-' + state).addClass('active');
+    }, 1450);
+}
+
+function goToPenult() {
+    state--;
+
+    console.log('state : ' + state);
+    console.log('SHOW SLIDE #' + state);
+
+    anime({
+        targets: '#map',
+        translateX: '100%',
+        duration: 1500,
+        easing: 'easeInOutCubic',
+    })
+    setTimeout(function () {
+        $('.slide').removeClass('active');
+    }, 750);
+
+    setTimeout(function () {
+        $('.slide-6 .slide__col-right').css('z-index', '-1');
+    }, 1430);
+
+    setTimeout(function () {
+        $('.slide-5 .slide__col-left').css('z-index', '1');
+    }, 750);
+
+    anime({
+        targets: '.backdrop-two',
+        translateX: '0',
+        duration: 1500,
+        easing: 'easeInOutCubic',
+        delay: 800,
+        complete: function () {
+            scrollTrigger = true;
+            readyTrigger = true;
+        }
+    })
+
+    setTimeout(function () {
+        $('.slide-' + state).addClass('active');
+    }, 1450);
+}
+
 $(window).load(function () {
     console.log('state : ' + state);
     console.log('SHOW SLIDE #' + state);
@@ -269,7 +376,7 @@ $(window).load(function () {
             targets: '.backdrop',
             translateX: 0,
             duration: 1500,
-            easing: 'easeInOutCubic', //easeInOutCubic - 1500, easeInOutQuart -2000
+            easing: 'easeInOutCubic',
         })
         .add({
             targets: '.logo',
@@ -287,7 +394,7 @@ $(window).load(function () {
             easing: 'easeInOutCubic',
             complete: function () {
                 anime({
-                    targets: '.down',
+                    targets: '.down img',
                     bottom: '+=-10',
                     duration: 1000,
                     easing: 'easeInOutCubic',
@@ -327,6 +434,10 @@ $(window).bind('mousewheel DOMMouseScroll', function (event) {
             scrollTrigger = false;
             readyTrigger = false;
             gotoSlideZero();
+        } else if (readyTrigger && scrollTrigger && state == 6) {
+            scrollTrigger = false;
+            readyTrigger = false;
+            goToPenult();
         } else if (readyTrigger && scrollTrigger && state > 0) {
             scrollTrigger = false;
             readyTrigger = false;
@@ -337,6 +448,10 @@ $(window).bind('mousewheel DOMMouseScroll', function (event) {
             scrollTrigger = false;
             readyTrigger = false;
             gotoFirstSlide();
+        } else if (readyTrigger && scrollTrigger && state == 5) {
+            scrollTrigger = false;
+            readyTrigger = false;
+            goToMap();
         } else if (readyTrigger && scrollTrigger && state < slideCount) {
             scrollTrigger = false;
             readyTrigger = false;
@@ -344,3 +459,173 @@ $(window).bind('mousewheel DOMMouseScroll', function (event) {
         }
     }
 });
+
+
+var map;
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 17,
+        center: {
+            lat: 52.562876,
+            lng: 13.359259
+        },
+        backgroundColor: '#fcfcfc',
+        scrollwheel: false,
+        fullscreenControl: true,
+        fullscreenControlOptions: true,
+        rotateControl: true,
+        rotateControlOptions: true,
+        tilt: 45,
+        styles: [{
+            elementType: 'geometry',
+            stylers: [{
+                color: '#ebe3cd'
+            }]
+        }, {
+            elementType: 'labels.text.fill',
+            stylers: [{
+                color: '#a39d90'
+            }]
+        }, {
+            elementType: 'labels.text.stroke',
+            stylers: [{
+                color: '#f5f1e6'
+            }]
+        }, {
+            featureType: 'administrative',
+            elementType: 'geometry.stroke',
+            stylers: [{
+                color: '#c9b2a6'
+            }]
+        }, {
+            featureType: 'administrative.land_parcel',
+            elementType: 'geometry.stroke',
+            stylers: [{
+                color: '#dcd2be'
+            }]
+        }, {
+            featureType: 'administrative.land_parcel',
+            elementType: 'labels.text.fill',
+            stylers: [{
+                color: '#a39d90'
+            }]
+        }, {
+            featureType: 'landscape.natural',
+            elementType: 'geometry',
+            stylers: [{
+                color: '#dfd2ae'
+            }]
+        }, {
+            featureType: 'poi',
+            elementType: 'geometry',
+            stylers: [{
+                color: '#dfd2ae'
+            }]
+        }, {
+            featureType: 'poi',
+            elementType: 'labels.text.fill',
+            stylers: [{
+                color: '#a39d90'
+            }]
+        }, {
+            featureType: 'poi.park',
+            elementType: 'geometry.fill',
+            stylers: [{
+                color: '#a5b076'
+            }]
+        }, {
+            featureType: 'poi.park',
+            elementType: 'labels.text.fill',
+            stylers: [{
+                color: '#447530'
+            }]
+        }, {
+            featureType: 'road',
+            elementType: 'geometry',
+            stylers: [{
+                color: '#f5f1e6'
+            }]
+        }, {
+            featureType: 'road.arterial',
+            elementType: 'geometry',
+            stylers: [{
+                color: '#f5f1e6'
+            }]
+        }, {
+            featureType: 'road.highway',
+            elementType: 'geometry',
+            stylers: [{
+                color: '#f5f1e6'
+            }]
+        }, {
+            featureType: 'road.highway',
+            elementType: 'geometry.stroke',
+            stylers: [{
+                color: '#f5f1e6'
+            }]
+        }, {
+            featureType: 'road.highway.controlled_access',
+            elementType: 'geometry',
+            stylers: [{
+                color: '#f5f1e6'
+            }]
+        }, {
+            featureType: 'road.highway.controlled_access',
+            elementType: 'geometry.stroke',
+            stylers: [{
+                color: '#f5f1e6'
+            }]
+        }, {
+            featureType: 'road.local',
+            elementType: 'labels.text.fill',
+            stylers: [{
+                color: '#a39d90'
+            }]
+        }, {
+            featureType: 'transit.line',
+            elementType: 'geometry',
+            stylers: [{
+                color: '#'
+            }]
+        }, {
+            featureType: 'transit.line',
+            elementType: 'labels.text.fill',
+            stylers: [{
+                color: '#a39d90'
+            }]
+        }, {
+            featureType: 'transit.line',
+            elementType: 'labels.text.stroke',
+            stylers: [{
+                color: '#ebe3cd'
+            }]
+        }, {
+            featureType: 'transit.station',
+            elementType: 'geometry',
+            stylers: [{
+                color: '#dfd2ae'
+            }]
+        }, {
+            featureType: 'water',
+            elementType: 'geometry.fill',
+            stylers: [{
+                color: '#b9d3c2'
+            }]
+        }, {
+            featureType: 'water',
+            elementType: 'labels.text.fill',
+            stylers: [{
+                color: '#92998d'
+            }]
+        }]
+    });
+    var marker = new google.maps.Marker({
+        map: map,
+        position: {
+            lat: 52.563049,
+            lng: 13.354676
+        }
+    });
+} // load map
+
+google.maps.event.addDomListener(window, 'load', initMap);
