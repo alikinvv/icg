@@ -330,3 +330,18 @@ svg.icg {
 	background-position: 48% 48%;
 	background-size: 182%;
 }
+
+@media (max-height: 710px) {
+	table {
+		margin: 0 auto 24px;
+	}
+	h2 {
+		margin-top: 15px;
+	}
+	.slide__col-right {
+		padding: 34px 0;
+	}
+	.slide__col-left {
+		padding: 0 42px;
+	}
+}
