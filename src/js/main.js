@@ -65,7 +65,7 @@ function gotoSlideZero() {
         .add({
             targets: '.logo',
             translateY: 0,
-            duration: 1500,
+            duration: 1400,
             offset: '-=1200',
             easing: 'easeInOutCubic',
             complete: function () {
@@ -96,8 +96,8 @@ function gotoFirstSlide() {
     })
     anime({
         targets: '.logo',
-        translateY: windowHeight * -1,
-        duration: 1200,
+        translateY: -2000,
+        duration: 1600,
         easing: 'easeInOutCubic',
     })
 }
