@@ -8,44 +8,54 @@ var readyTrigger = false, // определяет оконачание аним�
 var purple = '#544594',
     green = '#019386';
 
-// установка состояний элементов по умолчанию
-anime({
-    targets: '.backdrop',
-    translateX: '-100%',
-    duration: 0
-});
-anime({
-    targets: '.backdrop-two',
-    translateX: '-100%',
-    duration: 0
-});
-anime({
-    targets: '.backdrop-three',
-    translateX: '100%',
-    duration: 0
-});
-anime({
-    targets: '.logo',
-    translateX: 123,
-    duration: 0
-});
-anime({
-    targets: '.logo__text',
-    translateX: 100,
-    opacity: 0,
-    duration: 0
-});
-anime({
-    targets: '#map',
-    translateX: '100%',
-    duration: 0
-});
+var firstSlideSpeed = 1200;
+var slideSpeed = 1000;
+var backdropDelay = 347.8260;
+var showNavigation = 900;
+var hideNavigation = 430;
 
-anime({
-    targets: 'svg.icg mask path',
-    x: 100,
-    duration: 100
-})
+
+if(windowWidth > 1200) {
+    // установка состояний элементов по умолчанию
+    anime({
+        targets: '.backdrop',
+        translateX: '-100%',
+        duration: 0
+    });
+    anime({
+        targets: '.backdrop-two',
+        translateX: '-100%',
+        duration: 0
+    });
+    anime({
+        targets: '.backdrop-three',
+        translateX: '100%',
+        duration: 0
+    });
+    anime({
+        targets: '.logo',
+        translateX: 123,
+        duration: 0
+    });
+    anime({
+        targets: '.logo__text',
+        translateX: 100,
+        opacity: 0,
+        duration: 0
+    });
+    anime({
+        targets: '#map',
+        translateX: '100%',
+        duration: 0
+    });
+
+    anime({
+        targets: 'svg.icg mask path',
+        x: 100,
+        duration: 100
+    })
+}
+
 
 // переход с первого слайда на нулевой
 function gotoSlideZero() {
@@ -53,20 +63,20 @@ function gotoSlideZero() {
     tl.add({
             targets: '.backdrop-two',
             translateX: '-100%',
-            duration: 1500,
+            duration: slideSpeed,
             easing: 'easeInOutCubic',
         })
         .add({
             targets: '.backdrop',
             translateY: '0',
-            duration: 1200,
+            duration: slideSpeed - 300,
             easing: 'easeInOutCubic',
         })
         .add({
             targets: '.logo',
             translateY: 0,
-            duration: 1400,
-            offset: '-=1200',
+            duration: slideSpeed - 100,
+            offset: '-=' + slideSpeed / 1.25,
             easing: 'easeInOutCubic',
             complete: function () {
                 state = 0;
@@ -79,41 +89,55 @@ function gotoSlideZero() {
         })
     setTimeout(function () {
         $('.slide-1').removeClass('active');
-    }, 800);
+    }, slideSpeed / 1.875);
+
+    setTimeout(function() {
+        $('.navigation').css('z-index','-1');
+        updateNavigation();
+    }, hideNavigation);
+
+    setTimeout(function() {
+        $('.navigation').css('z-index','-1').removeClass('right').addClass('left');
+        updateNavigation();
+    }, showNavigation);
 }
 
 // переход с нулевого слайда на первый
-function gotoFirstSlide() {
+function gotoFirstSlide() {    
     $('.down').fadeOut();
     anime({
         targets: '.backdrop',
         translateY: '-100%',
-        duration: 1500,
+        duration: slideSpeed,
         easing: 'easeInOutCubic',
-        complete: function () {
-            nextSlide();
-        }
     })
     anime({
         targets: '.logo',
         translateY: -2000,
-        duration: 1600,
+        duration: slideSpeed + 100,
         easing: 'easeInOutCubic',
     })
-}
 
-// переключение на следующий слайд
-function nextSlide() {
-    if (state == 0) { // переход с нулевого слайда на первый
-        state++;
+    state++;
 
-        console.log('state : ' + state);
-        console.log('SHOW SLIDE #' + state);
+    setTimeout(function() {
+        $('.navigation').css('z-index','-1');
+        updateNavigation();
+    }, hideNavigation);
 
+    setTimeout(function() {
+        $('.navigation').css('z-index','5').removeClass('left').addClass('right');
+        updateNavigation();
+    }, showNavigation);
+
+    console.log('state : ' + state);
+    console.log('SHOW SLIDE #' + state);
+
+    setTimeout(function() {
         anime({
             targets: '.backdrop-two',
             translateX: '50%',
-            duration: 1500,
+            duration: slideSpeed,
             easing: 'easeInOutCubic',
             complete: function () {
                 scrollTrigger = true;
@@ -122,9 +146,24 @@ function nextSlide() {
         })
         setTimeout(function () {
             $('.slide-' + state).addClass('active');
-        }, 650);
-    } else if (state % 2 == 1) { // переход на четный слайд
+        }, slideSpeed / 2.307);
+    }, slideSpeed / 1.5);
+}
+
+// переключение на следующий слайд
+function nextSlide() {
+    if (state % 2 == 1) { // переход на четный слайд
         state++;
+
+        setTimeout(function() {
+            $('.navigation').css('z-index','-1');
+            updateNavigation();
+        }, hideNavigation);
+
+        setTimeout(function() {
+            $('.navigation').css('z-index','5').removeClass('right').addClass('left');
+            updateNavigation();
+        }, showNavigation);
 
         console.log('state : ' + state);
         console.log('SHOW SLIDE #' + state);
@@ -136,19 +175,19 @@ function nextSlide() {
         anime({
             targets: '.backdrop-two',
             translateX: '-100%',
-            duration: 1500,
+            duration: slideSpeed,
             easing: 'easeInOutCubic',
         })
         setTimeout(function () {
             $('.slide').removeClass('active');
-        }, 750);
+        }, slideSpeed / 2);
 
         anime({
             targets: '.backdrop-three',
             translateX: '-50%',
-            duration: 1500,
+            duration: slideSpeed,
             easing: 'easeInOutCubic',
-            delay: 800,
+            delay: backdropDelay,
             complete: function () {
                 scrollTrigger = true;
                 readyTrigger = true;
@@ -156,10 +195,20 @@ function nextSlide() {
         })
         setTimeout(function () {
             $('.slide-' + state).addClass('active');
-        }, 1450);
+        }, slideSpeed / 1.2344);
     } else if (state % 2 != 1) { // преход на нечетный слайд
         var position = '50%';
         state++;
+
+        setTimeout(function() {
+            $('.navigation').css('z-index','-1');
+            updateNavigation();
+        }, hideNavigation);
+
+        setTimeout(function() {
+            $('.navigation').css('z-index','5').removeClass('left').addClass('right');
+            updateNavigation();
+        }, showNavigation);
 
         console.log('state : ' + state);
         console.log('SHOW SLIDE #' + state);
@@ -178,26 +227,26 @@ function nextSlide() {
         anime({
             targets: '.backdrop-three',
             translateX: '100%',
-            duration: 1500,
+            duration: slideSpeed,
             easing: 'easeInOutCubic',
         })
         setTimeout(function () {
             $('.slide').removeClass('active');
-        }, 750);
+        }, slideSpeed / 2);
         setTimeout(function () {
             if (state == 5) {
                 $('.slide-5 .slide__col-left').css('z-index', 1);
             } else {
                 $('.slide-5 .slide__col-left').css('z-index', '-1');
             }
-        }, 840);
+        }, slideSpeed / 1.7857);
 
         anime({
             targets: '.backdrop-two',
             translateX: position,
-            duration: 1500,
+            duration: slideSpeed,
             easing: 'easeInOutCubic',
-            delay: 800,
+            delay: backdropDelay,
             complete: function () {
                 scrollTrigger = true;
                 readyTrigger = true;
@@ -205,7 +254,7 @@ function nextSlide() {
         })
         setTimeout(function () {
             $('.slide-' + state).addClass('active');
-        }, 1450);
+        }, slideSpeed / 1.2344);
     }
 }
 
@@ -214,6 +263,16 @@ function prevSlide() {
     if (state % 2 == 1) { // переход на четный слайд        
         state--;
 
+        setTimeout(function() {
+            $('.navigation').css('z-index','-1');
+            updateNavigation();
+        }, hideNavigation);
+
+        setTimeout(function() {
+            $('.navigation').css('z-index','5').removeClass('right').addClass('left');
+            updateNavigation();
+        }, showNavigation);
+
         if (state == 2) {
             $('.backdrop-three').css('background', purple);
         }
@@ -221,7 +280,7 @@ function prevSlide() {
         if (state == 4) {
             setTimeout(function () {
                 $('.slide-5 .slide__col-left').css('z-index', '-1');
-            }, 1430);
+            }, 800);
         }
 
         console.log('state : ' + state);
@@ -230,19 +289,19 @@ function prevSlide() {
         anime({
             targets: '.backdrop-two',
             translateX: '-100%',
-            duration: 1500,
+            duration: slideSpeed,
             easing: 'easeInOutCubic',
         })
         setTimeout(function () {
             $('.slide').removeClass('active');
-        }, 750);
+        }, slideSpeed / 1.9973);
 
         anime({
             targets: '.backdrop-three',
             translateX: '-50%',
-            duration: 1500,
+            duration: slideSpeed,
             easing: 'easeInOutCubic',
-            delay: 800,
+            delay: backdropDelay,
             complete: function () {
                 scrollTrigger = true;
                 readyTrigger = true;
@@ -250,9 +309,19 @@ function prevSlide() {
         })
         setTimeout(function () {
             $('.slide-' + state).addClass('active');
-        }, 1450);
+        }, slideSpeed / 1.2344);
     } else if (state % 2 != 1) { // преход на нечетный слайд
         state--;
+
+        setTimeout(function() {
+            $('.navigation').css('z-index','-1');
+            updateNavigation();
+        }, hideNavigation);
+
+        setTimeout(function() {
+            $('.navigation').css('z-index','5').removeClass('left').addClass('right');
+            updateNavigation();
+        }, showNavigation);
 
         if (state == 1) {
             $('.backdrop-two').css('background', purple);
@@ -264,19 +333,19 @@ function prevSlide() {
         anime({
             targets: '.backdrop-three',
             translateX: '100%',
-            duration: 1500,
+            duration: slideSpeed,
             easing: 'easeInOutCubic',
         })
         setTimeout(function () {
             $('.slide').removeClass('active');
-        }, 750);
+        }, slideSpeed / 2);
 
         anime({
             targets: '.backdrop-two',
             translateX: '50%',
-            duration: 1500,
+            duration: slideSpeed,
             easing: 'easeInOutCubic',
-            delay: 800,
+            delay: backdropDelay,
             complete: function () {
                 scrollTrigger = true;
                 readyTrigger = true;
@@ -284,59 +353,25 @@ function prevSlide() {
         })
         setTimeout(function () {
             $('.slide-' + state).addClass('active');
-        }, 1450);
+        }, slideSpeed / 1.2344);
 
         
     }
 }
 
-// переход на последний слайд с картой
-function goToMap() {
-    state++;
-
-    console.log('state : ' + state);
-    console.log('SHOW SLIDE #' + state);
-
-    anime({
-        targets: '.backdrop-two',
-        translateX: '-100%',
-        duration: 1500,
-        easing: 'easeInOutCubic',
-    })
-    setTimeout(function () {
-        $('.slide').removeClass('active');
-    }, 750);
-    setTimeout(function () {
-        $('.slide-5 .slide__col-left').css('z-index', '-1');
-    }, 1430);
-
-    setTimeout(function () {
-        $('.slide-6 .slide__col-right').css('z-index', '1');
-    }, 750);
-    setTimeout(function () {
-        $('.contacts').css('opacity', '1');
-        $('.dev').css('opacity', '1');
-    }, 1600);
-
-    anime({
-        targets: '#map',
-        translateX: '0',
-        duration: 1500,
-        easing: 'easeInOutCubic',
-        delay: 800,
-        complete: function () {
-            scrollTrigger = true;
-            readyTrigger = true;
-        }
-    })
-    setTimeout(function () {
-        $('.slide-' + state).addClass('active');
-    }, 1450);
-}
-
 // переход с последнего слайда с картой на предпоследний
 function goToPenult() {
     state--;
+
+    setTimeout(function() {
+        $('.navigation').css('z-index','-1');
+        updateNavigation();
+    }, hideNavigation);
+
+    setTimeout(function() {
+        $('.navigation').css('z-index','5').removeClass('left').addClass('right');
+        updateNavigation();
+    }, showNavigation);
 
     console.log('state : ' + state);
     console.log('SHOW SLIDE #' + state);
@@ -344,27 +379,27 @@ function goToPenult() {
     anime({
         targets: '#map',
         translateX: '100%',
-        duration: 1500,
+        duration: slideSpeed,
         easing: 'easeInOutCubic',
     })
     setTimeout(function () {
         $('.slide').removeClass('active');
-    }, 750);
+    }, slideSpeed / 2);
 
     setTimeout(function () {
         $('.slide-6 .slide__col-right').css('z-index', '-1');
-    }, 1430);
+    }, slideSpeed / 1.0344);
 
     setTimeout(function () {
         $('.slide-5 .slide__col-left').css('z-index', '1');
-    }, 750);
+    }, 500);
 
     anime({
         targets: '.backdrop-two',
         translateX: '0',
-        duration: 1500,
+        duration: slideSpeed,
         easing: 'easeInOutCubic',
-        delay: 800,
+        delay: slideSpeed / 1.875,
         complete: function () {
             scrollTrigger = true;
             readyTrigger = true;
@@ -373,147 +408,141 @@ function goToPenult() {
 
     setTimeout(function () {
         $('.slide-' + state).addClass('active');
-    }, 1450);
+    }, slideSpeed / 1.0344);
 }
 
-$(window).load(function () {    
+// переход на последний слайд с картой
+function goToMap() {
+    state++;
+
+    setTimeout(function() {
+        $('.navigation').css('z-index','-1');
+        updateNavigation();
+    }, hideNavigation);
+
+    setTimeout(function() {
+        $('.navigation').css('z-index','5').removeClass('right').addClass('left');
+        updateNavigation();
+    }, showNavigation);
+
     console.log('state : ' + state);
     console.log('SHOW SLIDE #' + state);
 
-    var tl = anime.timeline();
-    tl.add({
-            targets: '.backdrop',
-            translateX: 0,
-            duration: 1500,
-            easing: 'easeInOutCubic',
-        })
-        .add({
-            targets: '.logo',
-            translateX: 0,
-            duration: 1000,
-            easing: 'easeInOutCubic',
-        })
-        .add({
-            targets: '.logo__text',
-            translateX: 0,
-            opacity: 1,
-            duration: 1000,
-            offset: '-=900',
-            easing: 'easeInOutCubic',
-            complete: function () {
-                anime({
-                    targets: '.down img',
-                    bottom: '+=-10',
-                    duration: 1000,
-                    easing: 'easeInOutCubic',
-                    direction: 'alternate',
-                    loop: true,
-                })
-            }
-        })
-        .add({
-            targets: '.down',
-            opacity: 1,
-            duration: 1000,
-            easing: 'easeInOutCubic',
-            offset: '-=500',
-            begin: function () {
-                readyTrigger = true;
-                scrollTrigger = true;
-            }
-        })
+    anime({
+        targets: '.backdrop-two',
+        translateX: '-100%',
+        duration: slideSpeed,
+        easing: 'easeInOutCubic',
+    })
+    setTimeout(function () {
+        $('.slide').removeClass('active');
+    }, slideSpeed / 2);
+    setTimeout(function () {
+        $('.slide-5 .slide__col-left').css('z-index', '-1');
+    }, slideSpeed / 1.0344);
 
-    $('.down').click(function () {
-        if (readyTrigger) {
-            scrollTrigger = false;
-            readyTrigger = false;
-            gotoFirstSlide();
+    setTimeout(function () {
+        $('.slide-6 .slide__col-right').css('z-index', '1');
+    }, slideSpeed / 2);
+    setTimeout(function () {
+        $('.contacts').css('opacity', '1');
+        $('.dev').css('opacity', '1');
+    }, slideSpeed / 0.9375);
+
+    anime({
+        targets: '#map',
+        translateX: '0',
+        duration: slideSpeed,
+        easing: 'easeInOutCubic',
+        delay: slideSpeed / 1.875,
+        complete: function () {
+            scrollTrigger = true;
+            readyTrigger = true;
         }
-    });
-});
+    })
+    setTimeout(function () {
+        $('.slide-' + state).addClass('active');
+    }, slideSpeed / 1.0344);
+}
 
-$(window).bind('mousewheel DOMMouseScroll swipe', function (event) {
-    console.log("readyTrigger: " + readyTrigger);
-    console.log('scrollTrigger: ' + scrollTrigger);
-    if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) { // scroll up
-        if ((readyTrigger && scrollTrigger && state == 1)) {
-            scrollTrigger = false;
-            readyTrigger = false;
-            gotoSlideZero();
-        } else if (readyTrigger && scrollTrigger && state == 6) {
-            scrollTrigger = false;
-            readyTrigger = false;
-            setTimeout(function () {
-                $('.contacts').css('opacity', '0');
-                $('.dev').css('opacity', '0');
-            }, 450);
-            goToPenult();
-        } else if (readyTrigger && scrollTrigger && state > 0) {
-            scrollTrigger = false;
-            readyTrigger = false;
-            prevSlide();
-        }
-    } else {    // scroll down
-        if (readyTrigger && scrollTrigger && state == 0) {
-            scrollTrigger = false;
-            readyTrigger = false;
-            gotoFirstSlide();
-        } else if (readyTrigger && scrollTrigger && state == 5) {
-            scrollTrigger = false;
-            readyTrigger = false;
-            goToMap();
-        } else if (readyTrigger && scrollTrigger && state < slideCount) {
-            scrollTrigger = false;
-            readyTrigger = false;
-            nextSlide();
-        }
-    }
-});
+function updateNavigation() {
+    $('.navigation li.active').removeClass('active');
+    $('.navigation').find('li:nth-child(' + (state+1) + ')').addClass('active');
+    console.log($('.navigation').find('li:nth-child(' + (state+1) + ')'));
+}
 
-document.addEventListener('touchstart', handleTouchStart, false);
-document.addEventListener('touchmove', handleTouchMove, false);
+$(window).load(function () {    
+    if(windowWidth > 1200) {
+        console.log('state : ' + state);
+        console.log('SHOW SLIDE #' + state);
 
-var xDown = null;
-var yDown = null;
+        var tl = anime.timeline();
+        tl.add({
+                targets: '.backdrop',
+                translateX: 0,
+                duration: firstSlideSpeed,
+                easing: 'easeInOutCubic',
+            })
+            .add({
+                targets: '.logo',
+                translateX: 0,
+                duration: firstSlideSpeed / 1.5,
+                easing: 'easeInOutCubic',
+            })
+            .add({
+                targets: '.logo__text',
+                translateX: 0,
+                opacity: 1,
+                duration: firstSlideSpeed / 1.5,
+                offset: '-=900',
+                easing: 'easeInOutCubic',
+                complete: function () {
+                    anime({
+                        targets: '.down img',
+                        bottom: '+=-10',
+                        duration: firstSlideSpeed / 1.5,
+                        easing: 'easeInOutCubic',
+                        direction: 'alternate',
+                        loop: true,
+                    })
+                }
+            })
+            .add({
+                targets: '.down',
+                opacity: 1,
+                duration: firstSlideSpeed / 1.5,
+                easing: 'easeInOutCubic',
+                offset: '-=500',
+                begin: function () {
+                    readyTrigger = true;
+                    scrollTrigger = true;
+                }
+            })
 
-function handleTouchStart(evt) {
-    xDown = evt.touches[0].clientX;
-    yDown = evt.touches[0].clientY;
-};
-
-function handleTouchMove(evt) {
-    if (!xDown || !yDown) {
-        return;
-    }
-
-    var xUp = evt.touches[0].clientX;
-    var yUp = evt.touches[0].clientY;
-
-    var xDiff = xDown - xUp;
-    var yDiff = yDown - yUp;
-
-    if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
-        if (xDiff > 0) {
-            /* left swipe */
-        } else {
-            /* right swipe */
-        }
-    } else {
-        if (yDiff > 0) {
-            if (readyTrigger && scrollTrigger && state == 0) {
+        $('.down').click(function () {
+            if (readyTrigger) {
                 scrollTrigger = false;
                 readyTrigger = false;
                 gotoFirstSlide();
-            } else if (readyTrigger && scrollTrigger && state == 5) {
-                scrollTrigger = false;
-                readyTrigger = false;
-                goToMap();
-            } else if (readyTrigger && scrollTrigger && state < slideCount) {
-                scrollTrigger = false;
-                readyTrigger = false;
-                nextSlide();
-            }            
-        } else {
+            }
+        });
+
+        var listItem = '<li></li>';
+        $('body').append('<nav class="navigation left"></nav>');
+
+        for(var i = 1; i <= $('.slide').length; i++) {
+            $('.navigation').append('<li></li>');
+        }
+
+        $('.navigation').find('li:nth-child(' + state+1 + ')').addClass('active');
+    }    
+});
+
+if(windowWidth > 1200) {
+    $(window).bind('mousewheel DOMMouseScroll swipe', function (event) {        
+        console.log("readyTrigger: " + readyTrigger);
+        console.log('scrollTrigger: ' + scrollTrigger);
+        if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) { // scroll up
             if ((readyTrigger && scrollTrigger && state == 1)) {
                 scrollTrigger = false;
                 readyTrigger = false;
@@ -531,10 +560,94 @@ function handleTouchMove(evt) {
                 readyTrigger = false;
                 prevSlide();
             }
+        } else {    // scroll down
+            if (readyTrigger && scrollTrigger && state == 0) {
+                scrollTrigger = false;
+                readyTrigger = false;
+                gotoFirstSlide();
+            } else if (readyTrigger && scrollTrigger && state == 5) {
+                scrollTrigger = false;
+                readyTrigger = false;
+                goToMap();
+            } else if (readyTrigger && scrollTrigger && state < slideCount) {
+                scrollTrigger = false;
+                readyTrigger = false;
+                nextSlide();
+            }
         }
+        
+    });
+}
+
+if(windowWidth > 1200) {
+    document.addEventListener('touchstart', handleTouchStart, false);
+    document.addEventListener('touchmove', handleTouchMove, false);
+
+    var xDown = null;
+    var yDown = null;
+
+    function handleTouchStart(evt) {
+        xDown = evt.touches[0].clientX;
+        yDown = evt.touches[0].clientY;
+    };
+
+    function handleTouchMove(evt) {
+        if (!xDown || !yDown) {
+            return;
+        }
+
+        var xUp = evt.touches[0].clientX;
+        var yUp = evt.touches[0].clientY;
+
+        var xDiff = xDown - xUp;
+        var yDiff = yDown - yUp;
+
+        
+        if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
+            if (xDiff > 0) {
+                /* left swipe */
+            } else {
+                /* right swipe */
+            }
+        } else {
+            if (yDiff > 0) {
+                if (readyTrigger && scrollTrigger && state == 0) {
+                    scrollTrigger = false;
+                    readyTrigger = false;
+                    gotoFirstSlide();
+                } else if (readyTrigger && scrollTrigger && state == 5) {
+                    scrollTrigger = false;
+                    readyTrigger = false;
+                    goToMap();
+                } else if (readyTrigger && scrollTrigger && state < slideCount) {
+                    scrollTrigger = false;
+                    readyTrigger = false;
+                    nextSlide();
+                }            
+            } else {
+                if ((readyTrigger && scrollTrigger && state == 1)) {
+                    scrollTrigger = false;
+                    readyTrigger = false;
+                    gotoSlideZero();
+                } else if (readyTrigger && scrollTrigger && state == 6) {
+                    scrollTrigger = false;
+                    readyTrigger = false;
+                    setTimeout(function () {
+                        $('.contacts').css('opacity', '0');
+                        $('.dev').css('opacity', '0');
+                    }, 450);
+                    goToPenult();
+                } else if (readyTrigger && scrollTrigger && state > 0) {
+                    scrollTrigger = false;
+                    readyTrigger = false;
+                    prevSlide();
+                }
+            }
+        }
+        /* reset values */
+        xDown = null;
+
     }
-    /* reset values */
-    xDown = null;
 
 }
 
