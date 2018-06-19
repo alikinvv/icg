@@ -11,8 +11,7 @@ var purple = '#544594',
 var firstSlideSpeed = 1200;
 var slideSpeed = 1000;
 var backdropDelay = 347.8260;
-var showNavigation = 900;
-var hideNavigation = 430;
+var showNavigation = 700;
 
 
 if(windowWidth > 1200) {
@@ -59,6 +58,7 @@ if(windowWidth > 1200) {
 
 // переход с первого слайда на нулевой
 function gotoSlideZero() {
+    state = 0;
     var tl = anime.timeline();
     tl.add({
             targets: '.backdrop-two',
@@ -92,12 +92,7 @@ function gotoSlideZero() {
     }, slideSpeed / 1.875);
 
     setTimeout(function() {
-        $('.navigation').css('z-index','-1');
-        updateNavigation();
-    }, hideNavigation);
-
-    setTimeout(function() {
-        $('.navigation').css('z-index','-1').removeClass('right').addClass('left');
+        $('.navigation').removeClass('right').addClass('left');
         updateNavigation();
     }, showNavigation);
 }
@@ -120,15 +115,11 @@ function gotoFirstSlide() {
 
     state++;
 
-    setTimeout(function() {
-        $('.navigation').css('z-index','-1');
-        updateNavigation();
-    }, hideNavigation);
+    updateNavigation();
 
     setTimeout(function() {
-        $('.navigation').css('z-index','5').removeClass('left').addClass('right');
-        updateNavigation();
-    }, showNavigation);
+        $('.navigation').removeClass('left').addClass('right');
+    }, 1000);
 
     console.log('state : ' + state);
     console.log('SHOW SLIDE #' + state);
@@ -156,12 +147,7 @@ function nextSlide() {
         state++;
 
         setTimeout(function() {
-            $('.navigation').css('z-index','-1');
-            updateNavigation();
-        }, hideNavigation);
-
-        setTimeout(function() {
-            $('.navigation').css('z-index','5').removeClass('right').addClass('left');
+            $('.navigation').removeClass('right').addClass('left');
             updateNavigation();
         }, showNavigation);
 
@@ -200,16 +186,6 @@ function nextSlide() {
         var position = '50%';
         state++;
 
-        setTimeout(function() {
-            $('.navigation').css('z-index','-1');
-            updateNavigation();
-        }, hideNavigation);
-
-        setTimeout(function() {
-            $('.navigation').css('z-index','5').removeClass('left').addClass('right');
-            updateNavigation();
-        }, showNavigation);
-
         console.log('state : ' + state);
         console.log('SHOW SLIDE #' + state);
 
@@ -220,8 +196,16 @@ function nextSlide() {
         if (state == 5) {
             $('.backdrop-two').css('background', purple);
             position = '0%';
+            setTimeout(function() {
+                $('.navigation').removeClass('left').addClass('right');
+                updateNavigation();
+            }, 1000);
         } else {
             position = '50%';
+            setTimeout(function() {
+                $('.navigation').removeClass('left').addClass('right');
+                updateNavigation();
+            }, 500);
         }
 
         anime({
@@ -264,12 +248,7 @@ function prevSlide() {
         state--;
 
         setTimeout(function() {
-            $('.navigation').css('z-index','-1');
-            updateNavigation();
-        }, hideNavigation);
-
-        setTimeout(function() {
-            $('.navigation').css('z-index','5').removeClass('right').addClass('left');
+            $('.navigation').removeClass('right').addClass('left');
             updateNavigation();
         }, showNavigation);
 
@@ -314,14 +293,9 @@ function prevSlide() {
         state--;
 
         setTimeout(function() {
-            $('.navigation').css('z-index','-1');
+            $('.navigation').removeClass('left').addClass('right');
             updateNavigation();
-        }, hideNavigation);
-
-        setTimeout(function() {
-            $('.navigation').css('z-index','5').removeClass('left').addClass('right');
-            updateNavigation();
-        }, showNavigation);
+        }, 500);
 
         if (state == 1) {
             $('.backdrop-two').css('background', purple);
@@ -364,14 +338,9 @@ function goToPenult() {
     state--;
 
     setTimeout(function() {
-        $('.navigation').css('z-index','-1');
+        $('.navigation').removeClass('left').addClass('right');
         updateNavigation();
-    }, hideNavigation);
-
-    setTimeout(function() {
-        $('.navigation').css('z-index','5').removeClass('left').addClass('right');
-        updateNavigation();
-    }, showNavigation);
+    }, 1200);
 
     console.log('state : ' + state);
     console.log('SHOW SLIDE #' + state);
@@ -415,13 +384,8 @@ function goToPenult() {
 function goToMap() {
     state++;
 
+    $('.navigation').removeClass('right').addClass('left');
     setTimeout(function() {
-        $('.navigation').css('z-index','-1');
-        updateNavigation();
-    }, hideNavigation);
-
-    setTimeout(function() {
-        $('.navigation').css('z-index','5').removeClass('right').addClass('left');
         updateNavigation();
     }, showNavigation);
 
@@ -468,7 +432,6 @@ function goToMap() {
 function updateNavigation() {
     $('.navigation li.active').removeClass('active');
     $('.navigation').find('li:nth-child(' + (state+1) + ')').addClass('active');
-    console.log($('.navigation').find('li:nth-child(' + (state+1) + ')'));
 }
 
 $(window).load(function () {    
@@ -516,6 +479,7 @@ $(window).load(function () {
                 begin: function () {
                     readyTrigger = true;
                     scrollTrigger = true;
+                    $('.navigation').addClass('left').animate({'opacity': 1});
                 }
             })
 
